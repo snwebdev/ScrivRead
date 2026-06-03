@@ -2,11 +2,73 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectFolderButton = document.getElementById('select-folder');
   const binderList = document.getElementById('binder-list');
   const editor = document.getElementById('editor');
+  const editorPanel = document.getElementById('editor-panel');
+  const contextMenu = document.getElementById('context-menu');
+  const fontButtons = contextMenu.querySelectorAll('[data-font]');
+  const sizeButtons = contextMenu.querySelectorAll('[data-size]');
   const resizeHandle = document.getElementById('resize-handle');
   const binderPanel = document.getElementById('binder-panel');
   const workspace = document.getElementById('workspace');
 
   let projectDirHandle = null;
+
+  function hideContextMenu() {
+    contextMenu.classList.remove('visible');
+  }
+
+  function showContextMenu(x, y) {
+    contextMenu.classList.add('visible');
+    const rect = editorPanel.getBoundingClientRect();
+    const menuRect = contextMenu.getBoundingClientRect();
+    let left = x - rect.left;
+    let top = y - rect.top;
+    if (left + menuRect.width > rect.width) left = rect.width - menuRect.width - 10;
+    if (top + menuRect.height > rect.height) top = rect.height - menuRect.height - 10;
+    contextMenu.style.left = `${Math.max(left, 10)}px`;
+    contextMenu.style.top = `${Math.max(top, 10)}px`;
+  }
+
+  function setActiveButton(buttons, attribute, value) {
+    buttons.forEach((button) => {
+      button.classList.toggle('active', button.dataset[attribute] === value);
+    });
+  }
+
+  editor.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    showContextMenu(event.clientX, event.clientY);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!contextMenu.contains(event.target)) hideContextMenu();
+  });
+
+  window.addEventListener('resize', hideContextMenu);
+  window.addEventListener('blur', hideContextMenu);
+
+  fontButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const font = button.dataset.font;
+      editor.style.fontFamily = font;
+      setActiveButton(fontButtons, 'font', font);
+      hideContextMenu();
+    });
+  });
+
+  sizeButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const size = button.dataset.size;
+      editor.style.fontSize = size;
+      setActiveButton(sizeButtons, 'size', size);
+      hideContextMenu();
+    });
+  });
+
+  editor.style.fontFamily = 'Georgia, serif';
+  setActiveButton(fontButtons, 'font', 'Georgia, serif');
+  setActiveButton(sizeButtons, 'size', '16px');
   let isResizing = false;
 
   selectFolderButton.addEventListener('click', async () => {

@@ -4,25 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scrivener Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Lora:wght@400;600&family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    body { margin: 0; font-family: sans-serif; }
-    #workspace { display: flex; height: 100vh; overflow: hidden; }
-    #binder-panel { width: 25%; min-width: 180px; max-width: 70%; padding: 20px; background: #fafafa; }
+    body { margin: 0; font-family: sans-serif; height: 100vh; }
+    #select-folder { padding: 6px 12px; margin: 0 0 12px 0; background: #007acc; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 12px; font-weight: 500; width: 100%; box-sizing: border-box; }
+    #select-folder:hover { background: #005a9e; }
+    #workspace { display: flex; height: 100%; overflow: hidden; }
+    #binder-panel { width: 25%; min-width: 180px; max-width: 70%; padding: 12px; background: #fafafa; overflow-y: auto; }
+    #binder-panel h2 { margin: 0 0 12px 0; font-size: 16px; }
     #resize-handle { width: 6px; cursor: col-resize; background: #ccc; }
-    #editor-panel { flex: 1; padding: 20px; overflow-y: auto; background: white; }
+    #editor-panel { flex: 1; padding: 20px; overflow-y: auto; background: white; position: relative; }
+    #editor { font-family: system-ui, sans-serif; font-size: 16px; }
     #editor p { margin: 0 0 1em; line-height: 1.6; }
+    #context-menu { position: absolute; z-index: 10; min-width: 220px; background: white; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 10px 25px rgba(0,0,0,.12); padding: 8px 0; display: none; }
+    #context-menu.visible { display: block; }
+    #context-menu .menu-section { padding: 0 10px 8px; }
+    #context-menu .menu-section:last-child { padding-bottom: 8px; }
+    #context-menu .menu-title { margin: 0 0 6px; font-size: 0.78rem; color: #555; text-transform: uppercase; letter-spacing: .08em; }
+    #context-menu button { width: 100%; border: none; background: transparent; text-align: left; padding: 8px 10px; cursor: pointer; font: inherit; color: #222; }
+    #context-menu button:hover, #context-menu button.active { background: #f0f0f0; }
+    #context-menu button.active { font-weight: 600; }
   </style>
 </head>
 <body>
-  <button id="select-folder">Open Scrivener Project</button>
   <div id="workspace">
     <div id="binder-panel">
+      <button id="select-folder">Open Scrivener Project</button>
       <h2>Binder</h2>
       <ul id="binder-list"></ul>
     </div>
     <div id="resize-handle" title="Drag to resize"></div>
     <div id="editor-panel">
       <div id="editor"><p><em>Select a document to read...</em></p></div>
+      <div id="context-menu" role="menu">
+        <div class="menu-section">
+          <p class="menu-title">Font family</p>
+          <button type="button" data-font="Georgia, serif">Georgia</button>
+          <button type="button" data-font="'Lora', serif">Lora</button>
+          <button type="button" data-font="'Merriweather', serif">Merriweather</button>
+          <button type="button" data-font="'Inter', sans-serif">Inter</button>
+          <button type="button" data-font="'Roboto', sans-serif">Roboto</button>
+          <button type="button" data-font="'Open Sans', sans-serif">Open Sans</button>
+          <button type="button" data-font="'Courier Prime', monospace">Courier Prime</button>
+          <button type="button" data-font="'JetBrains Mono', monospace">JetBrains Mono</button>
+        </div>
+        <div class="menu-section">
+          <p class="menu-title">Font size</p>
+          <button type="button" data-size="14px">14px</button>
+          <button type="button" data-size="16px">16px</button>
+          <button type="button" data-size="18px">18px</button>
+          <button type="button" data-size="20px">20px</button>
+        </div>
+      </div>
     </div>
   </div>
   <script src="app.js"></script>
