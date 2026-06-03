@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Scrivener Reader",
+  "version": "1.0",
+  "description": "Reads local .scriv project folders in a two-pane layout.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "Open Scrivener Reader"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scrivener Reader</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #workspace { display: flex; height: 100vh; overflow: hidden; }
+    #binder-panel { width: 25%; min-width: 180px; max-width: 70%; padding: 20px; background: #fafafa; }
+    #resize-handle { width: 6px; cursor: col-resize; background: #ccc; }
+    #editor-panel { flex: 1; padding: 20px; overflow-y: auto; background: white; }
+    #editor p { margin: 0 0 1em; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <button id="select-folder">Open Scrivener Project</button>
+  <div id="workspace">
+    <div id="binder-panel">
+      <h2>Binder</h2>
+      <ul id="binder-list"></ul>
+    </div>
+    <div id="resize-handle" title="Drag to resize"></div>
+    <div id="editor-panel">
+      <div id="editor"><p><em>Select a document to read...</em></p></div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
